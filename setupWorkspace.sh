@@ -14,8 +14,11 @@ echo "Done!"
 echo "Extracting compiled source..."
 cd classes
 jar xfv "../../../EquilinoxWindows.jar"
-cd ../../../
+cd ../../
 echo "Done!"
+
+sh applyPatches.sh "decompile/"
+cd ../
 
 echo "Installing Equilinox to local Maven repository"
 mvn install:install-file -DgroupId="com.equilinox" -DartifactId="equilinox" -Dversion="1.7.0b" -Dpackaging=jar -Dfile="EquilinoxWindows.jar" -Dsources="Evolve/decompile/EquilinoxWindows.jar"

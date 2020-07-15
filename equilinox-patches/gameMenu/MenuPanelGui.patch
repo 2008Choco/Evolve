@@ -5,14 +5,14 @@
              }
          }));
 -        this.buttons.add(this.addLine(7, 13, 2, GameText.getText(6), new ClickListener() {
-+        // Equilinox Mod start
++        // Evolve start
 +        this.buttons.add(this.addLine(7, 13, 2, "Mods", event -> {
 +            if (event.isLeftClick()) {
-+                this.gameMenu.setNewSecondaryScreen(new wtf.choco.equilinoxmod.gui.mods.ModPanelGui(gameMenu));
++                this.gameMenu.setNewSecondaryScreen(new wtf.choco.evolve.gui.mods.ModPanelGui(gameMenu));
 +            }
 +        }));
 +        this.buttons.add(this.addLine(8, 15, 2, GameText.getText(6), new ClickListener() {
-+        // Equilinox Mod end
++        // Evolve end
              public void eventOccurred(GuiClickEvent guiclickevent) {
                  if (guiclickevent.isLeftClick()) {
                      SoundMaestro.getMusicPlayer().fadeOutAndStopPlayer();
