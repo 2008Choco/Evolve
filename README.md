@@ -1,4 +1,7 @@
-# Evolve
+<p align="center">
+    <img src="branding/evolve_logo_512.png" alt="Evolve Logo">
+</p>
+
 Evolve is a patch-based, event-oriented modding framework for [Equilinox](https://equilinox.com/) by [ThinMatrix](https://twitter.com/ThinMatrix/). In order to avoid republishing and freely distributing the decompiled source code of Equilinox - a game [purchaseable on Steam](https://store.steampowered.com/app/853550/) - this framework works exclusively based on patch files which may be later applied to a locally owned copy of the game. Therefore, if you do not own a legal copy of Equilinox, you will not be able to use or contribute to Evolve.
 
 # Contributing to Evolve
