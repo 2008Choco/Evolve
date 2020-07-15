@@ -17,7 +17,7 @@ jar xfv "../../../EquilinoxWindows.jar"
 cd ../../
 echo "Done!"
 
-sh applyPatches.sh "decompile/"
+sh applyPatches.sh "./decompile"
 cd ../
 
 echo "Installing Equilinox to local Maven repository"
