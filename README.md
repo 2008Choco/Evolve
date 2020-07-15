@@ -38,6 +38,19 @@ You may find your installation directory directly through Steam using the follow
 
 Congratulations, you have successfully setup the Evolve workspace and are free to edit as you please. For instructions on how to edit Equilinox code and generate patches, see [The Patch System](#The-Patch-System) below.
 
+# Setting Up Run Configurations
+In order to run a development environment for Equilinox directly from your IDE, a run configuration must be created for the project. At a later time, this run configuration will be automatically generated. This information applies only to Eclipse IDE though other IDEs almost certain have similar setup.
+
+Access your run configurations and create one for the Evolve project. Assign the Main class to `wtf.choco.evolve.userdev.LocalLauncher`
+
+![Basic Run Configuration](https://i.imgur.com/lrRA3gZ.png)
+
+Open the `Environment` tab and add a new environment variable titled `EQUILINOX_DECOMP_DIRECTORY`. The value of this variable should be the absolute path to the clean source of Equilinox (this directory should contain the LWJGL natives for Equilinox as well).
+
+![Environment Variables](https://i.imgur.com/LFMXhY6.png)
+
+Apply, save and you're ready to run Equilinox in the modded Evolve environment.
+
 # The Patch System
 Equilinox is a paid game and code copyright is held by ThinMatrix, therefore it cannot be distributed or hosted on a public repository such as Evolve. As such, Equilinox makes use of a patch-based system to list the bare minimum, a set of changes on which patches may be applied to the decompiled vanilla source.
 
