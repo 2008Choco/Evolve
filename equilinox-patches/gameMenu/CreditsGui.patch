@@ -1,0 +1,10 @@
+--- a/gameMenu/CreditsGui.java
++++ b/gameMenu/CreditsGui.java
+@@ -46,6 +46,7 @@
+         creditsinfo.addInfo(CreditsGui.SOUNDS2, "SoundSnap", "RCPTones");
+         creditsinfo.addInfo(CreditsGui.WEBSITE, "Constantin Ross", "Josh Speight");
+         creditsinfo.addInfo(CreditsGui.MAIN_MENU, "Syndesi");
++        creditsinfo.addInfo("Equilinox Mod", "Choco"); // Equilinox Mod
+         creditsinfo.addInfo(CreditsGui.THANKS, "Alberto Spina", "Alexander Ch\u00e1vez", "Alvin Daley", "Amean Abdelfattah", "andrew wilson", "Andrew Witt", "animo", "Anton Weise", "Austin Adamson", "Beard or Die", "BeJammin", "ben humphries", "Benjamin Fuller", "Bill Brownell", "BluNova", "caffeinecoder", "Casper Studios", "Charlie Quigley", "Claudiu Dumitru", "Claudiu Mihail Danciu", "Clayton Scarcella", "Cole Foderaro", "comaralex", "CrazyRedd", "Dakota Berry", "Dan A", "Daniel Thian", "Danny D", "Dilink", "Diogo", "Dylan Thompson", "F Meyer", "Galathil Feanor", "George Angelopoulos", "Harold Pe\u00f1a", "Harry Stanley", "i330733", "Ivan Izhbirdeev", "James McGregor", "Jason Pack", "Jeffrey Goudzwaard", "Jerry bradshaw", "Josh Gill", "Joshua Hannaford", "Justin", "Klowded Dreamz", "Leandro Dipietro", "Lucas Moiseyev (Crazeeruskee)", "Marek Mikolajczyk", "Matdu", "Micah Weightman", "Michal Merc", "Michiel de Smet", "Miguel A. Diaz-Rivas", "Milan", "MrMattyJ", "nasser-sh", "Nathan", "nmann", "Noah Korth", "Petter Kaspersen", "Radioactive Bullfrog", "Redd", "Rene Damm", "Sean McCrory", "Sithis", "Stefan", "Steven Kimpe", "The5thBluesky", "Timothy Gibbons", "Wolfgang Karl", "Zacharias Adamsson");
+         return creditsinfo;
+     }

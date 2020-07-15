@@ -1,0 +1,11 @@
+--- a/mainGuis/GuiRepository.java
++++ b/mainGuis/GuiRepository.java
+@@ -131,7 +131,7 @@
+     public static final Texture DAY_ICON = loadPixelPerfectTexture("dayNight.png");
+     public static final Texture DAY_ICON_PAUSE = loadPixelPerfectTexture("dayNightPause2.png");
+     public static final Texture HUNGER = loadGuiTexture("food.png");
+-    public static final Texture[] LINES = new Texture[]{loadGuiTexture("line0b.png"), loadGuiTexture("line1.png"), loadGuiTexture("line2.png"), loadGuiTexture("line3.png"), loadGuiTexture("line4.png"), loadGuiTexture("line5.png"), loadGuiTexture("line6.png"), loadGuiTexture("line7.png")};
++    public static final Texture[] LINES = new Texture[]{loadGuiTexture("line0b.png"), loadGuiTexture("line1.png"), loadGuiTexture("line2.png"), loadGuiTexture("line3.png"), loadGuiTexture("line4.png"), loadGuiTexture("line5.png"), loadGuiTexture("line6.png"), loadGuiTexture("line7.png"), loadGuiTexture("line7.png")}; // Equilinox Mod
+ 
+     public GuiRepository() {}
+ 

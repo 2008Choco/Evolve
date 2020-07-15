@@ -1,0 +1,78 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>wtf.choco</groupId>
+  <artifactId>Evolve</artifactId>
+  <version>0.0.1</version>
+  <name>Evolve</name>
+  <description>A patch-based, event-oriented modding framework for Equilinox by ThinMatrix</description>
+  <url>https://github.com/2008Choco/Evolve</url>
+
+  <properties>
+    <skipTests>true</skipTests>
+    <equilinox.version>1.7.0b</equilinox.version>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.2.0</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <addDefaultEntries>false</addDefaultEntries>
+            </manifest>
+            <manifestEntries>
+              <Main-Class>org.ninjacave.jarsplice.JarSpliceLauncher</Main-Class>
+              <Launcher-Main-Class>wtf.choco.evolve.Main</Launcher-Main-Class>
+              <Launcher-VM-Args> </Launcher-VM-Args>
+              <Implementation-Title>Equilinox</Implementation-Title>
+              <Implementation-Version>${equilinox.version}</Implementation-Version>
+              <Specification-Title>${project.name}</Specification-Title>
+              <Specification-Version>${project.version}</Specification-Version>
+              <Specification-Vendor>Choco</Specification-Vendor>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.2.4</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.equilinox</groupId>
+      <artifactId>equilinox</artifactId>
+      <version>${equilinox.version}</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+</project>
