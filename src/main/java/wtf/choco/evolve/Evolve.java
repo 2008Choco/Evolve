@@ -1,7 +1,11 @@
 package wtf.choco.evolve;
 
 import java.io.File;
+import java.util.Date;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.LogRecord;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import wtf.choco.evolve.mod.ModInfo;
 import wtf.choco.evolve.mod.ModManager;
@@ -11,6 +15,8 @@ import main.MainApp;
 
 public final class Evolve {
 
+    private static final String LOGGER_FORMAT = "[%1$tF %1$tT] [%2$s] %3$s %n";
+
     private static final Evolve INSTANCE = new Evolve();
 
     private final Logger logger = Logger.getLogger("Evolve");
@@ -18,7 +24,21 @@ public final class Evolve {
 
     private ModManager modManager;
 
-    Evolve() { }
+    Evolve() {
+        this.logger.setUseParentHandlers(false);
+
+        ConsoleHandler loggerConsoleHandler = new ConsoleHandler();
+        loggerConsoleHandler.setFormatter(new SimpleFormatter() {
+
+            @Override
+            public synchronized String format(LogRecord record) {
+                return String.format(LOGGER_FORMAT, new Date(record.getMillis()), record.getLevel().getLocalizedName(), record.getMessage());
+            }
+
+        });
+
+        this.logger.addHandler(loggerConsoleHandler);
+    }
 
     void init() {
         this.logger.info("Loading Evolve modding framework for Equilinox version " + MainApp.VERSION_STRING);
@@ -34,10 +54,10 @@ public final class Evolve {
 
         // FIXME: Temporary debug information. Should be moved into the plugin startup logic
         for (ModInfo modInfo : modManager.getMods()) {
-            System.out.println("Successfully loaded mod with ID " + modInfo.getId() + " v" + modInfo.getVersion());
-            System.out.println("    Description: \"" + modInfo.getDescription() + "\"");
-            System.out.println("    Author: " + modInfo.getAuthor());
-            System.out.println("    Mod Class: " + modInfo.getModClass().getName());
+            this.logger.info("Successfully loaded mod with ID " + modInfo.getId() + " v" + modInfo.getVersion());
+            this.logger.info("    Description: \"" + modInfo.getDescription() + "\"");
+            this.logger.info("    Author: " + modInfo.getAuthor());
+            this.logger.info("    Mod Class: " + modInfo.getModClass().getName());
         }
     }
 
