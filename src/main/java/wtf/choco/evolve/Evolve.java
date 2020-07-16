@@ -7,6 +7,7 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+import wtf.choco.evolve.event.EventBus;
 import wtf.choco.evolve.mod.ModInfo;
 import wtf.choco.evolve.mod.ModManager;
 import wtf.choco.evolve.mod.loader.JavaModLoader;
@@ -63,6 +64,8 @@ public final class Evolve {
 
     void shutdown() {
         this.logger.info("Handling mod shutdown...");
+
+        EventBus.EVOLVE.unregisterListeners();
         this.modManager.clearMods();
 
         this.logger.info("Goodbye! Thanks for modding!");

@@ -3,6 +3,7 @@ package wtf.choco.evolve.mod.loader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.security.CodeSource;
@@ -17,6 +18,9 @@ import java.util.jar.Manifest;
 import org.apache.commons.io.IOUtils;
 
 import wtf.choco.evolve.Evolve;
+import wtf.choco.evolve.event.Event;
+import wtf.choco.evolve.event.EventBus;
+import wtf.choco.evolve.event.EventListener;
 import wtf.choco.evolve.mod.InvalidModException;
 import wtf.choco.evolve.mod.Mod;
 import wtf.choco.evolve.mod.ModInfo;
@@ -42,6 +46,7 @@ public final class ModClassLoader extends URLClassLoader {
         this.evolve = evolve;
         this.modLoader = modLoader;
 
+        // Load the mod
         this.evolve.getLogger().info("Loading mod at " + modFile.getPath());
         for (Enumeration<JarEntry> entries = jarFile.entries(); entries.hasMoreElements();) {
             JarEntry entry = entries.nextElement();
@@ -56,12 +61,39 @@ public final class ModClassLoader extends URLClassLoader {
             Class<?> clazz = Class.forName(className, false, this);
 
             Mod mod = clazz.getAnnotation(Mod.class);
-            if (mod == null) {
-                continue;
+            if (mod != null) {
+                this.loadedModInfo = new ModInfo(clazz, mod);
             }
 
-            this.loadedModInfo = new ModInfo(clazz, mod);
-            break;
+            // Search for listeners
+            for (Method method : clazz.getDeclaredMethods()) {
+                method.setAccessible(true);
+
+                EventListener listenerAnnotation = method.getAnnotation(EventListener.class);
+                if (listenerAnnotation == null) {
+                    continue;
+                }
+
+                Class<?>[] parameters = method.getParameterTypes();
+                if (parameters.length != 1) {
+                    throw new InvalidModException("Tried listening for an event (@EventListener) on method " + method.getName() + " but method has missing or illegal event parameters");
+                }
+
+                Class<?> eventParameter = parameters[0];
+                if (!Event.class.isAssignableFrom(eventParameter)) {
+                    throw new InvalidModException("Tried listening for an event (@EventHandler) on method " + method.getName() + " but method is using non-event parameter");
+                }
+
+                EventBus.EVOLVE.subscribeTo(eventParameter.asSubclass(Event.class), event -> {
+                    try {
+                        method.invoke(null, event);
+                    } catch (ReflectiveOperationException e) {
+                        e.printStackTrace();
+                    }
+                });
+
+                this.evolve.getLogger().info("Registered listener in class " + className + " for event " + eventParameter.getName());
+            }
         }
 
         if (loadedModInfo == null) {
