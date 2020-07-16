@@ -46,7 +46,7 @@ do
         patchContentOld=$(cat "$outFile" | tail -n +3)
         if [ "$patchContentsCut" != "$patchContentOld" ] ; then
             echo "$outFile changed"
-            echo "$patchNew" > "$outFile"
+            echo "$patchContents" > "$outFile"
         fi
     else
 	    mkdir -p "$(dirname $outFile)"
