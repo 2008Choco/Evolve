@@ -4,6 +4,7 @@ Equilinox_*_Saves/*
 Equilinox*.jar
 *.dat
 *.dll
+mods/
 
 # Everything beloe was created by https://www.gitignore.io/api/java,eclipse,netbeans,intellij,maven
 

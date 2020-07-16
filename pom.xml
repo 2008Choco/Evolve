@@ -60,9 +60,6 @@
             </goals>
           </execution>
         </executions>
-        <configuration>
-
-        </configuration>
       </plugin>
     </plugins>
   </build>
@@ -72,6 +69,13 @@
       <groupId>com.equilinox</groupId>
       <artifactId>equilinox</artifactId>
       <version>${equilinox.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.7</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>

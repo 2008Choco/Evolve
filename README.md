@@ -45,9 +45,9 @@ Access your run configurations and create one for the Evolve project. Assign the
 
 ![Basic Run Configuration](https://i.imgur.com/lrRA3gZ.png)
 
-Open the `Environment` tab and add a new environment variable titled `EQUILINOX_DECOMP_DIRECTORY`. The value of this variable should be the absolute path to the clean source of Equilinox (this directory should contain the LWJGL natives for Equilinox as well).
+Open the `Environment` tab and add a new environment variable titled `EVOLVE_DIRECTORY`. The value of this variable should be the absolute path to the root directory of Evolve.
 
-![Environment Variables](https://i.imgur.com/LFMXhY6.png)
+![Environment Variables](https://i.imgur.com/1tQqn1a.png)
 
 Apply, save and you're ready to run Equilinox in the modded Evolve environment.
 

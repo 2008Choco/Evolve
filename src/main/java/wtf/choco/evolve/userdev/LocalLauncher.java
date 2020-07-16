@@ -8,20 +8,27 @@ import java.util.List;
 public final class LocalLauncher {
 
     public static void main(String[] astring) throws Exception {
-        String decompileDirectory = System.getenv("EQUILINOX_DECOMP_DIRECTORY");
-        if (decompileDirectory == null) {
-            System.err.println("Could not find environment variable, EQUILINOX_DECOMP_DIRECTORY... is it set?");
-            System.err.println("This environment var should point to the root directory of the decompiled source");
+        /* FIXME:
+         * This needs some cleaning up. It's not really a great approach to launching locally...
+         * I'm not quite sure how to improve this, so contributions are welcome.
+         */
+
+        String evolveDirectory = System.getenv("EVOLVE_DIRECTORY");
+        if (evolveDirectory == null) {
+            System.err.println("Could not find environment variable, EVOLVE_DIRECTORY... is it set?");
+            System.err.println("This environment var should point to the root directory of the Evolve project");
             return;
         }
 
         File sourceFile = LocalLauncher.getSelf();
+        String decompileDirectory = evolveDirectory + File.separator + "decompile";
         String compiledVanillaDirectory = decompileDirectory + File.separator + "classes";
+        String libsDirectory = evolveDirectory + File.separator + "libs" + File.separator + "*";
 
         List<String> processArgs = new ArrayList<>();
         processArgs.add("java");
         processArgs.add("-cp");
-        processArgs.add(sourceFile.getAbsoluteFile().toString() + ";" + compiledVanillaDirectory);
+        processArgs.add(sourceFile.getAbsoluteFile().toString() + ";" + compiledVanillaDirectory + ";" + libsDirectory);
         processArgs.add("-Djava.library.path=" + decompileDirectory); // Natives should be located here
         processArgs.add("wtf.choco.evolve.Main");
 
