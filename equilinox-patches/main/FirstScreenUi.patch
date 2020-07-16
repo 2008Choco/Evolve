@@ -1,0 +1,50 @@
+--- a/main/FirstScreenUi.java
++++ b/main/FirstScreenUi.java
+@@ -41,6 +41,7 @@
+     private GuiImage tmLogo;
+     private GuiImage jgLogo;
+     private GuiImage dsLogo;
++    private GuiImage evolveLogo; // Evolve
+     private GuiImage whiteFlash;
+     private float time = 0.0F;
+     private int bufferFrames = 0;
+@@ -51,6 +52,7 @@
+         this.tmLogo = this.createImage(FirstScreenUi.TM_LOGO, 4.0F);
+         this.jgLogo = this.createImage(FirstScreenUi.JG_LOGO, 4.0F);
+         this.dsLogo = this.createImage(FirstScreenUi.DS_LOGO, 4.0F);
++        this.evolveLogo = this.createImage(wtf.choco.evolve.util.EvolveResources.EVOLVE_LOGO, 2.0F); // Evolve
+         this.whiteFlash = new GuiImage(FirstScreenUi.PLAIN_TEX);
+         this.whiteFlash.getTexture().setOverrideColour(ColourPalette.WHITE);
+         this.whiteFlash.getTexture().setAlphaDriver(new ConstantDriver(0.0F));
+@@ -60,9 +62,12 @@
+     protected void init() {
+         super.init();
+         super.addCenteredComponent(this.logo, 0.5F, 0.2F, 0.13F);
+-        super.addCenteredComponentX(this.tmLogo, 0.2F, 0.75F, 0.1F);
+-        super.addCenteredComponentX(this.jgLogo, 0.5F, 0.75F, 0.1F);
+-        super.addCenteredComponentX(this.dsLogo, 0.8F, 0.75F, 0.1F);
++        // Evolve start - Move original components upwards, add Evolve logo
++        super.addCenteredComponentX(this.tmLogo, 0.2F, 0.7F, 0.1F);
++        super.addCenteredComponentX(this.jgLogo, 0.5F, 0.7F, 0.1F);
++        super.addCenteredComponentX(this.dsLogo, 0.8F, 0.7F, 0.1F);
++        super.addCenteredComponentX(this.evolveLogo, 0.5F, 0.825F, 0.155F);
++        // Evolve end
+         super.addComponent(this.whiteFlash, 0.0F, 0.0F, 1.0F, 1.0F);
+     }
+ 
+@@ -125,6 +130,7 @@
+         this.tmLogo.getTexture().setAlphaDriver(new SlideDriver(0.0F, 1.0F, 1.0F));
+         this.jgLogo.getTexture().setAlphaDriver(new SlideDriver(0.0F, 1.0F, 1.0F));
+         this.dsLogo.getTexture().setAlphaDriver(new SlideDriver(0.0F, 1.0F, 1.0F));
++        this.evolveLogo.getTexture().setAlphaDriver(new SlideDriver(0.0F, 1.0F, 1.0F)); // Evolve
+     }
+ 
+     private GuiImage createImage(Texture texture, float f) {
+@@ -165,6 +171,7 @@
+         this.jgLogo.remove();
+         this.logo.remove();
+         this.dsLogo.remove();
++        this.evolveLogo.remove(); // Evolve
+         GameManager.gameState.setState(GameState.GAME_MENU);
+         EquilinoxMusic.startPlayingPlaylist();
+         this.endPhase = true;
