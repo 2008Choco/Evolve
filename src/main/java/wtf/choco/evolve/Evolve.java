@@ -76,6 +76,10 @@ public final class Evolve {
         return modsDirectory;
     }
 
+    public ModManager getModManager() {
+        return modManager;
+    }
+
     public static Evolve getInstance() {
         return INSTANCE;
     }
