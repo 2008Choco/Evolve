@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import wtf.choco.evolve.Evolve;
 import wtf.choco.evolve.mod.InvalidModException;
 import wtf.choco.evolve.mod.ModInfo;
 import wtf.choco.evolve.util.Check;
@@ -18,6 +19,12 @@ public final class JavaModLoader implements ModLoader {
 
     private final Map<String, Class<?>> modClasses = new HashMap<>();
     private final List<ModClassLoader> modClassLoaders = new ArrayList<>();
+
+    private final Evolve evolve;
+
+    public JavaModLoader(Evolve evolve) {
+        this.evolve = evolve;
+    }
 
     @Override
     public FilenameFilter getFilePredicate() {
@@ -34,7 +41,7 @@ public final class JavaModLoader implements ModLoader {
 
         ModClassLoader classLoader = null;
         try {
-            classLoader = new ModClassLoader(getClass().getClassLoader(), modFile, this);
+            classLoader = new ModClassLoader(getClass().getClassLoader(), modFile, evolve, this);
         } catch (IOException | ClassNotFoundException e) {
             throw new InvalidModException(e);
         }

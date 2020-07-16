@@ -13,7 +13,6 @@ import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
-import java.util.logging.Logger;
 
 import org.apache.commons.io.IOUtils;
 
@@ -30,18 +29,20 @@ public final class ModClassLoader extends URLClassLoader {
     private final Manifest manifest;
     private final URL jarURL;
     private final Map<String, Class<?>> loadedClasses = new HashMap<>();
+
+    private final Evolve evolve;
     private final JavaModLoader modLoader;
 
-    public ModClassLoader(ClassLoader parent, File modFile, JavaModLoader modLoader) throws IOException, ClassNotFoundException {
+    public ModClassLoader(ClassLoader parent, File modFile, Evolve evolve, JavaModLoader modLoader) throws IOException, ClassNotFoundException {
         super(new URL[] { modFile.toURI().toURL() }, parent);
         this.jarFile = new JarFile(modFile);
         this.manifest = jarFile.getManifest();
         this.jarURL = modFile.toURI().toURL();
+
+        this.evolve = evolve;
         this.modLoader = modLoader;
 
-        Logger logger = Evolve.getInstance().getLogger();
-
-        logger.info("Loading mod at " + modFile.getPath());
+        this.evolve.getLogger().info("Loading mod at " + modFile.getPath());
         for (Enumeration<JarEntry> entries = jarFile.entries(); entries.hasMoreElements();) {
             JarEntry entry = entries.nextElement();
             String entryName = entry.getName();

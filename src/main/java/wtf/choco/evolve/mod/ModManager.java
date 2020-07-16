@@ -1,0 +1,99 @@
+package wtf.choco.evolve.mod;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+
+import wtf.choco.evolve.Evolve;
+import wtf.choco.evolve.mod.loader.ModLoader;
+import wtf.choco.evolve.util.Check;
+
+public final class ModManager {
+
+    private final Map<String, ModLoader> modLoaders = new HashMap<>();
+    private final Map<String, ModInfo> modsById = new HashMap<>();
+    private final List<ModInfo> mods = new ArrayList<>();
+
+    private final Evolve evolve;
+
+    public ModManager(Evolve evolve) {
+        this.evolve = evolve;
+    }
+
+    public void registerModLoader(String fileExtension, Function<Evolve, ModLoader> modLoader) {
+        ModLoader loader = modLoader.apply(evolve);
+        if (loader == null) {
+            throw new IllegalStateException("Cannot register null mod loader");
+        }
+
+        this.modLoaders.put(fileExtension, loader);
+    }
+
+    public ModInfo loadMod(File modFile) throws InvalidModException {
+        String fileName = modFile.getName();
+        String fileType = fileName.substring(fileName.lastIndexOf('.') + 1);
+
+        ModLoader loader = modLoaders.get(fileType);
+        if (loader == null) {
+            this.evolve.getLogger().warning("Could not load mod " + modFile.getPath() + " - Unknown class loader for file type: " + fileType);
+            return null;
+        }
+
+        ModInfo modInfo = loader.load(modFile);
+        this.modsById.put(modInfo.getId(), modInfo);
+        this.mods.add(modInfo);
+
+        return modInfo;
+    }
+
+    public ModInfo[] loadMods(File modsDirectory) {
+        Check.argument(modsDirectory != null, "modsDirectory must not be null");
+        Check.state(modsDirectory.isDirectory(), "modsDirectory does not exist or is not a directory");
+
+        File[] modFiles = modsDirectory.listFiles();
+        List<ModInfo> modInfos = new ArrayList<>(modFiles.length);
+
+        int loadedMods = 0;
+        for (int i = 0; i < modFiles.length; i++) {
+            ModInfo modInfo = loadMod(modFiles[i]);
+            if (modInfo == null) {
+                continue;
+            }
+
+            modInfos.add(modInfo);
+            loadedMods++;
+        }
+
+        this.evolve.getLogger().info("Successfully loaded " + loadedMods + " mods.");
+        return modInfos.toArray(new ModInfo[loadedMods]);
+    }
+
+    public void unloadMod(ModInfo modInfo) {
+        Check.argument(modInfo != null, "modInfo must not be null");
+        Check.state(modsById.containsKey(modInfo.getId()), "ModInfo " + modInfo.getId() + " has not been loaded");
+
+        this.modsById.remove(modInfo.getId());
+    }
+
+    public ModInfo getMod(String id) {
+        return modsById.get(id);
+    }
+
+    public boolean isModLoaded(String id) {
+        return modsById.containsKey(id);
+    }
+
+    public ModInfo[] getMods() {
+        return mods.toArray(new ModInfo[mods.size()]);
+    }
+
+    public void clearMods() {
+        this.modLoaders.clear();
+        this.modsById.clear();
+        this.mods.clear();
+    }
+
+}
