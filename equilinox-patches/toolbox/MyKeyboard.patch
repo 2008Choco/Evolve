@@ -1,0 +1,39 @@
+--- a/toolbox/MyKeyboard.java
++++ b/toolbox/MyKeyboard.java
+@@ -6,6 +6,11 @@
+ import java.util.List;
+ import org.lwjgl.input.Keyboard;
+ import org.lwjgl.opengl.Display;
++// Evolve start
++import wtf.choco.evolve.event.EventBus;
++import wtf.choco.evolve.event.EvolveEventFactory;
++import wtf.choco.evolve.event.input.KeyReleaseEvent;
++// Evolve end
+ 
+ public class MyKeyboard {
+ 
+@@ -39,9 +44,15 @@
+             this.keysDown.clear();
+         } else {
+             while (Keyboard.next()) {
+-                int i = Keyboard.getEventKey();
++                Integer i = Keyboard.getEventKey(); // Evolve - decompile error
+ 
+                 if (Keyboard.getEventKeyState()) {
++                    // Evolve start
++                    if (!EvolveEventFactory.handleKeyPressEvent(i)) {
++                        return;
++                    }
++                    // Evolve end
++
+                     this.keysDownThisFrame.add(i);
+                     int j = this.getValidAsciiValue(Keyboard.getEventCharacter());
+ 
+@@ -55,6 +66,7 @@
+ 
+                     this.keysDown.add(i);
+                 } else {
++                    EventBus.EVOLVE.push(new KeyReleaseEvent(i)); // Evolve
+                     this.keysUpThisFrame.add(i);
+                     this.keysDown.remove(i);
+                 }
