@@ -1,6 +1,7 @@
 ### Evolve ###
 decompile/
-Equilinox_*_Saves/*
+Equilinox_*_Saves/
+EquilinoxErrorLogs/
 Equilinox*.jar
 *.dat
 *.dll
