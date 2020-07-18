@@ -1,11 +1,11 @@
 ### Evolve ###
-decompile/
+/decompile/
 Equilinox_*_Saves/
 EquilinoxErrorLogs/
 Equilinox*.jar
 *.dat
 *.dll
-mods/
+/mods/
 
 # Everything beloe was created by https://www.gitignore.io/api/java,eclipse,netbeans,intellij,maven
 
