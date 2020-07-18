@@ -6,6 +6,7 @@ import utils.MyFile;
 public final class EvolveResources {
 
     public static final Texture EVOLVE_LOGO = loadGuiTexture("evolve_logo.png");
+    public static final Texture UNKNOWN_MOD_ICON = loadGuiTexture("unknown_mod_icon.png");
 
     private EvolveResources() { }
 
