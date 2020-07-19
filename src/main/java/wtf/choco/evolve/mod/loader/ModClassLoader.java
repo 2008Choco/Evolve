@@ -24,6 +24,7 @@ import wtf.choco.evolve.event.EventListener;
 import wtf.choco.evolve.mod.InvalidModException;
 import wtf.choco.evolve.mod.Mod;
 import wtf.choco.evolve.mod.ModInfo;
+import wtf.choco.evolve.util.ModFile;
 
 public final class ModClassLoader extends URLClassLoader {
 
@@ -62,7 +63,7 @@ public final class ModClassLoader extends URLClassLoader {
 
             Mod mod = clazz.getAnnotation(Mod.class);
             if (mod != null) {
-                this.loadedModInfo = new ModInfo(clazz, mod);
+                this.loadedModInfo = new ModInfo(clazz, this, mod);
             }
 
             // Search for listeners
@@ -98,6 +99,12 @@ public final class ModClassLoader extends URLClassLoader {
 
         if (loadedModInfo == null) {
             throw new InvalidModException("Missing @Mod annotation while loading mod at " + modFile.getPath());
+        }
+
+        // Try to find mod icon
+        JarEntry iconEntry = jarFile.getJarEntry("icon.png");
+        if (iconEntry != null) {
+            this.loadedModInfo.setIcon(new ModFile(loadedModInfo, iconEntry.getName()));
         }
     }
 
@@ -152,6 +159,25 @@ public final class ModClassLoader extends URLClassLoader {
         }
 
         return clazz;
+    }
+
+    @Override
+    public URL getResource(String name) {
+        // FIXME: This is kind of hacky, though I found no better alternative. Improvement requested
+        if (name.startsWith(".")) {
+            name = name.substring(1);
+        }
+
+        if (name.startsWith("/")) {
+            name = name.substring(1);
+        }
+
+        return findResource(name);
+    }
+
+    @Override
+    public Enumeration<URL> getResources(String name) throws IOException {
+        return findResources(name);
     }
 
     @Override

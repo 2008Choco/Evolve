@@ -3,7 +3,6 @@ package wtf.choco.evolve.gui.mods;
 import org.lwjgl.util.vector.Vector2f;
 
 import wtf.choco.evolve.mod.ModInfo;
-import wtf.choco.evolve.util.EvolveResources;
 
 import fontRendering.Text;
 import guiRendering.GuiRenderData;
@@ -28,7 +27,7 @@ public final class ModInfoComponent extends GuiComponent {
         this.background = new GuiImage(GuiRepository.BLOCK);
         this.background.getTexture().setOverrideColour(ColourPalette.DARK_GREY);
 
-        this.modIcon = new GuiImage(EvolveResources.UNKNOWN_MOD_ICON);
+        this.modIcon = new GuiImage(mod.getIcon());
         this.modTitle = Text.newText(mod.getId() + " v" + mod.getVersion() + " by " + mod.getAuthor()).setFontSize(1.0F).create();
         this.modTitle.setColour(ColourPalette.WHITE);
         this.modDescription = Text.newText(mod.getDescription()).setFontSize(0.85F).create();
