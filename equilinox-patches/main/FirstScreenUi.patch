@@ -40,6 +40,15 @@
      }
  
      private GuiImage createImage(Texture texture, float f) {
+@@ -136,7 +142,7 @@
+     }
+ 
+     private void checkFinishedLoading() {
+-        boolean flag = GameManager.sessionManager.hasWorldReady() && EquilinoxMusic.isLoaded() && !GameManager.sessionManager.isLoading();
++        boolean flag = GameManager.sessionManager.hasWorldReady() && EquilinoxMusic.isLoaded() && !GameManager.sessionManager.isLoading() && wtf.choco.evolve.Evolve.getInstance().getModManager().isReady(); // Evolve - mod loading should be considered
+ 
+         if (flag) {
+             ++this.bufferFrames;
 @@ -165,6 +171,7 @@
          this.jgLogo.remove();
          this.logo.remove();

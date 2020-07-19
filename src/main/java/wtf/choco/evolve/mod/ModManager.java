@@ -6,12 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-
+import java.util.logging.Logger;
 import wtf.choco.evolve.Evolve;
 import wtf.choco.evolve.mod.loader.ModLoader;
 import wtf.choco.evolve.util.Check;
 
 public final class ModManager {
+
+    private boolean ready = false;
 
     private final Map<String, ModLoader> modLoaders = new HashMap<>();
     private final Map<String, ModInfo> modsById = new HashMap<>();
@@ -33,6 +35,8 @@ public final class ModManager {
     }
 
     public ModInfo loadMod(File modFile) throws InvalidModException {
+        this.ready = false;
+
         String fileName = modFile.getName();
         String fileType = fileName.substring(fileName.lastIndexOf('.') + 1);
 
@@ -45,14 +49,18 @@ public final class ModManager {
         ModInfo modInfo = loader.load(modFile);
         this.modsById.put(modInfo.getId(), modInfo);
         this.mods.add(modInfo);
+        this.ready = true;
 
         return modInfo;
     }
 
     public ModInfo[] loadMods(File modsDirectory) {
+        this.ready = false;
+
         Check.argument(modsDirectory != null, "modsDirectory must not be null");
         Check.state(modsDirectory.isDirectory(), "modsDirectory does not exist or is not a directory");
 
+        Logger logger = evolve.getLogger();
         File[] modFiles = modsDirectory.listFiles();
         List<ModInfo> modInfos = new ArrayList<>(modFiles.length);
 
@@ -65,9 +73,11 @@ public final class ModManager {
 
             modInfos.add(modInfo);
             loadedMods++;
+            logger.info("Loaded mod \"" + modInfo.getId() + "\" v" + modInfo.getVersion() + " by " + modInfo.getAuthor());
         }
 
-        this.evolve.getLogger().info("Successfully loaded " + loadedMods + " mods.");
+        logger.info("Successfully loaded " + loadedMods + " mods.");
+        this.ready = true;
         return modInfos.toArray(new ModInfo[loadedMods]);
     }
 
@@ -94,6 +104,10 @@ public final class ModManager {
         this.modLoaders.clear();
         this.modsById.clear();
         this.mods.clear();
+    }
+
+    public boolean isReady() {
+        return ready;
     }
 
 }

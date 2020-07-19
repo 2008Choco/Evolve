@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 import wtf.choco.evolve.event.EventBus;
-import wtf.choco.evolve.mod.ModInfo;
 import wtf.choco.evolve.mod.ModManager;
 import wtf.choco.evolve.mod.loader.JavaModLoader;
 
@@ -49,16 +48,6 @@ public final class Evolve {
 
         if (modsDirectory.mkdirs()) {
             this.logger.info("Generated mods directory");
-        }
-
-        this.modManager.loadMods(modsDirectory);
-
-        // FIXME: Temporary debug information. Should be moved into the plugin startup logic
-        for (ModInfo modInfo : modManager.getMods()) {
-            this.logger.info("Successfully loaded mod with ID " + modInfo.getId() + " v" + modInfo.getVersion());
-            this.logger.info("    Description: \"" + modInfo.getDescription() + "\"");
-            this.logger.info("    Author: " + modInfo.getAuthor());
-            this.logger.info("    Mod Class: " + modInfo.getModClass().getName());
         }
     }
 

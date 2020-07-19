@@ -1,0 +1,56 @@
+--- a/main/MainApp.java
++++ b/main/MainApp.java
+@@ -17,6 +17,11 @@
+ import shops.ShopItem;
+ import toolbox.MyKeyboard;
+ import toolbox.OpenGlError;
++// Evolve start
++import wtf.choco.evolve.Evolve;
++import wtf.choco.evolve.event.EvolveEventFactory;
++import resourceProcessing.RequestProcessor;
++// Evolve end
+ 
+ public class MainApp {
+ 
+@@ -35,6 +40,17 @@
+ 
+         GuiMaster.addComponent(firstscreenui, 0.0F, 0.0F, 1.0F, 1.0F);
+         MyKeyboard.getKeyboard().block(true);
++        // Evolve start - load mods (asynchronously)
++        Evolve evolve = Evolve.getInstance();
++        RequestProcessor.sendRequest(() -> {
++            try {
++                evolve.getModManager().loadMods(evolve.getModsDirectory());
++            } catch (Exception e) {
++                e.printStackTrace();
++                GameManager.registerError();
++            }
++        });
++        // Evolve end
+ 
+         while (!firstscreenui.isReady()) {
+             GuiMaster.updateGuis();
+@@ -42,6 +58,7 @@
+             EngineMaster.update();
+         }
+ 
++        EvolveEventFactory.callEvolvePreInitEvent(); // Evolve
+         GameManager.init();
+         TemporaryPlacement.doTemporaryLoadingOfResources();
+         GlRequestProcessor.completeAllRequests();
+@@ -50,6 +67,7 @@
+         MainApp.i.generateBlueprintIcons();
+         MyKeyboard.getKeyboard().update();
+         MyKeyboard.getKeyboard().block(false);
++        EvolveEventFactory.callEvolvePostInitEvent(); // Evolve
+ 
+         while (DisplayManager.isOpen()) {
+             checkCheats();
+@@ -58,6 +76,7 @@
+             OpenGlError.check("Render");
+         }
+ 
++        EvolveEventFactory.callEvolveShutdownEvent(); // Evolve
+         MainApp.i.cleanUp();
+         GameManager.cleanUp();
+     }

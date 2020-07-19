@@ -1,6 +1,9 @@
 package wtf.choco.evolve.event;
 
 import wtf.choco.evolve.event.input.KeyPressEvent;
+import wtf.choco.evolve.event.lifecycle.EvolvePostInitEvent;
+import wtf.choco.evolve.event.lifecycle.EvolvePreInitEvent;
+import wtf.choco.evolve.event.lifecycle.EvolveShutdownEvent;
 
 public final class EvolveEventFactory {
 
@@ -10,6 +13,18 @@ public final class EvolveEventFactory {
         KeyPressEvent event = new KeyPressEvent(key);
         EventBus.EVOLVE.push(event);
         return !event.isCancelled();
+    }
+
+    public static void callEvolvePreInitEvent() {
+        EventBus.EVOLVE.push(new EvolvePreInitEvent());
+    }
+
+    public static void callEvolvePostInitEvent() {
+        EventBus.EVOLVE.push(new EvolvePostInitEvent());
+    }
+
+    public static void callEvolveShutdownEvent() {
+        EventBus.EVOLVE.push(new EvolveShutdownEvent());
     }
 
 }
