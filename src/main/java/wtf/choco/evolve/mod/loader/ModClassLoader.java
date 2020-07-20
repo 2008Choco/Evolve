@@ -181,15 +181,6 @@ public final class ModClassLoader extends URLClassLoader {
 
     @Override
     public URL getResource(String name) {
-        // FIXME: This is kind of hacky, though I found no better alternative. Improvement requested
-        if (name.startsWith(".")) {
-            name = name.substring(1);
-        }
-
-        if (name.startsWith("/")) {
-            name = name.substring(1);
-        }
-
         return findResource(name);
     }
 

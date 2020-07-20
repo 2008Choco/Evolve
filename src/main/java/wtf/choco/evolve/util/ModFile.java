@@ -12,22 +12,28 @@ import utils.MyFile;
 public class ModFile extends MyFile {
 
     private final ModContainer mod;
+    private final String path;
 
     public ModFile(ModContainer mod, String path) {
         super(path);
 
         Preconditions.checkArgument(mod != null, "mod cannot be null");
         this.mod = mod;
+        this.path = path;
     }
 
     @Override
     public InputStream getInputStream() {
-        return this.mod.getClassLoader().getResourceAsStream(getPath());
+        return this.mod.getClassLoader().getResourceAsStream(getRawPath());
     }
 
     @Override
     public URL getUrl() {
-        return this.mod.getClassLoader().getResource(getPath());
+        return this.mod.getClassLoader().getResource(getRawPath());
+    }
+
+    public String getRawPath() {
+        return path;
     }
 
 }
