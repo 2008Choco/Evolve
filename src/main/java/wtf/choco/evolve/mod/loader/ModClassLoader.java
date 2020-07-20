@@ -63,7 +63,19 @@ public final class ModClassLoader extends URLClassLoader {
 
             Mod mod = clazz.getAnnotation(Mod.class);
             if (mod != null) {
-                this.loadedModInfo = new ModInfo(clazz, this, mod);
+                if (loadedModInfo != null) {
+                    throw new InvalidModException("Mod defines multiple @Mod annotations. This is not legal");
+                }
+
+                Object modInstance = null;
+
+                try {
+                    modInstance = clazz.getDeclaredConstructor().newInstance();
+                } catch (ReflectiveOperationException e) {
+                    throw new InvalidModException(e);
+                }
+
+                this.loadedModInfo = new ModInfo(modInstance, this, mod);
             }
 
             // Search for listeners

@@ -13,16 +13,18 @@ public final class ModInfo {
     private MyFile iconPath;
 
     private final Class<?> modClass;
+    private final Object modInstance;
     private final ClassLoader classLoader;
     private final String id, version, description, author;
 
-    public ModInfo(Class<?> modClass, ClassLoader classLoader, String id, String version, String description, String author) {
-        Preconditions.checkArgument(modClass != null, "modClass must not be null");
+    public ModInfo(Object modInstance, ClassLoader classLoader, String id, String version, String description, String author) {
+        Preconditions.checkArgument(modInstance != null, "modInstance must not be null");
         Preconditions.checkArgument(classLoader != null, "classLoader must not be null");
         Preconditions.checkArgument(id != null && !id.isEmpty(), "id cannot be null or empty");
         Preconditions.checkArgument(version != null && !version.isEmpty(), "version cannot be null or empty");
 
-        this.modClass = modClass;
+        this.modInstance = modInstance;
+        this.modClass = modInstance.getClass();
         this.classLoader = classLoader;
         this.id = id;
         this.version = version;
@@ -30,12 +32,16 @@ public final class ModInfo {
         this.author = author;
     }
 
-    public ModInfo(Class<?> modClass, ClassLoader classLoader, Mod mod) {
-        this(modClass, classLoader, mod.id(), mod.version(), mod.description(), mod.author());
+    public ModInfo(Object modInstance, ClassLoader classLoader, Mod mod) {
+        this(modInstance, classLoader, mod.id(), mod.version(), mod.description(), mod.author());
     }
 
     public Class<?> getModClass() {
         return modClass;
+    }
+
+    public Object getModInstance() {
+        return modInstance;
     }
 
     public ClassLoader getClassLoader() {
