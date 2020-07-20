@@ -8,10 +8,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.base.Preconditions;
+
 import wtf.choco.evolve.Evolve;
 import wtf.choco.evolve.mod.InvalidModException;
 import wtf.choco.evolve.mod.ModInfo;
-import wtf.choco.evolve.util.Check;
 
 public final class JavaModLoader implements ModLoader {
 
@@ -33,7 +34,7 @@ public final class JavaModLoader implements ModLoader {
 
     @Override
     public ModInfo load(File modFile) throws InvalidModException {
-        Check.argument(modFile != null, "modFile must not be null");
+        Preconditions.checkArgument(modFile != null, "modFile must not be null");
 
         if (!modFile.exists()) {
             throw new InvalidModException(modFile.getPath() + "does not exist, could not load mod");

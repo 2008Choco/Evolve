@@ -7,9 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.logging.Logger;
+
+import com.google.common.base.Preconditions;
+
 import wtf.choco.evolve.Evolve;
 import wtf.choco.evolve.mod.loader.ModLoader;
-import wtf.choco.evolve.util.Check;
 
 public final class ModManager {
 
@@ -57,8 +59,8 @@ public final class ModManager {
     public ModInfo[] loadMods(File modsDirectory) {
         this.ready = false;
 
-        Check.argument(modsDirectory != null, "modsDirectory must not be null");
-        Check.state(modsDirectory.isDirectory(), "modsDirectory does not exist or is not a directory");
+        Preconditions.checkArgument(modsDirectory != null, "modsDirectory must not be null");
+        Preconditions.checkState(modsDirectory.isDirectory(), "modsDirectory does not exist or is not a directory");
 
         Logger logger = evolve.getLogger();
         File[] modFiles = modsDirectory.listFiles();
@@ -82,8 +84,8 @@ public final class ModManager {
     }
 
     public void unloadMod(ModInfo modInfo) {
-        Check.argument(modInfo != null, "modInfo must not be null");
-        Check.state(modsById.containsKey(modInfo.getId()), "ModInfo " + modInfo.getId() + " has not been loaded");
+        Preconditions.checkArgument(modInfo != null, "modInfo must not be null");
+        Preconditions.checkState(modsById.containsKey(modInfo.getId()), "ModInfo " + modInfo.getId() + " has not been loaded");
 
         this.modsById.remove(modInfo.getId());
     }

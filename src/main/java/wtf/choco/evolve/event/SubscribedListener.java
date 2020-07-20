@@ -2,7 +2,7 @@ package wtf.choco.evolve.event;
 
 import java.util.function.Consumer;
 
-import wtf.choco.evolve.util.Check;
+import com.google.common.base.Preconditions;
 
 public final class SubscribedListener {
 
@@ -25,7 +25,7 @@ public final class SubscribedListener {
     }
 
     public void call(Event event) {
-        Check.argument(this.eventClass.isInstance(event), "Illegal event call. Expected " + this.eventClass.getName() + ", got " + event.getClass().getName());
+        Preconditions.checkArgument(this.eventClass.isInstance(event), "Illegal event call. Expected " + this.eventClass.getName() + ", got " + event.getClass().getName());
         this.listener.accept(this.eventClass.cast(event));
     }
 

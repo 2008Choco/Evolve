@@ -1,6 +1,7 @@
 package wtf.choco.evolve.mod;
 
-import wtf.choco.evolve.util.Check;
+import com.google.common.base.Preconditions;
+
 import wtf.choco.evolve.util.EvolveResources;
 
 import textures.Texture;
@@ -16,10 +17,10 @@ public final class ModInfo {
     private final String id, version, description, author;
 
     public ModInfo(Class<?> modClass, ClassLoader classLoader, String id, String version, String description, String author) {
-        Check.argument(modClass != null, "modClass must not be null");
-        Check.argument(classLoader != null, "classLoader must not be null");
-        Check.argument(id != null && !id.isEmpty(), "id cannot be null or empty");
-        Check.argument(version != null && !version.isEmpty(), "version cannot be null or empty");
+        Preconditions.checkArgument(modClass != null, "modClass must not be null");
+        Preconditions.checkArgument(classLoader != null, "classLoader must not be null");
+        Preconditions.checkArgument(id != null && !id.isEmpty(), "id cannot be null or empty");
+        Preconditions.checkArgument(version != null && !version.isEmpty(), "version cannot be null or empty");
 
         this.modClass = modClass;
         this.classLoader = classLoader;
