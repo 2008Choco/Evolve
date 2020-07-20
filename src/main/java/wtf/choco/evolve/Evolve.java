@@ -24,7 +24,7 @@ public final class Evolve {
 
     private ModManager modManager;
 
-    Evolve() {
+    private Evolve() {
         this.logger.setUseParentHandlers(false);
 
         ConsoleHandler loggerConsoleHandler = new ConsoleHandler();
