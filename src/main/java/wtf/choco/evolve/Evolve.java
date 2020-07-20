@@ -41,7 +41,7 @@ public final class Evolve {
     }
 
     void init() {
-        this.logger.info("Loading Evolve modding framework for Equilinox version " + MainApp.VERSION_STRING);
+        this.logger.info("Loading Evolve modding framework for Equilinox " + MainApp.VERSION_STRING);
 
         this.modManager = new ModManager(this);
         this.modManager.registerModLoader("jar", JavaModLoader::new);
