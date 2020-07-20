@@ -23,12 +23,12 @@ import wtf.choco.evolve.event.EventBus;
 import wtf.choco.evolve.event.EventListener;
 import wtf.choco.evolve.mod.InvalidModException;
 import wtf.choco.evolve.mod.Mod;
-import wtf.choco.evolve.mod.ModInfo;
+import wtf.choco.evolve.mod.ModContainer;
 import wtf.choco.evolve.util.ModFile;
 
 public final class ModClassLoader extends URLClassLoader {
 
-    private ModInfo loadedModInfo;
+    private ModContainer loadedModInfo;
 
     private final JarFile jarFile;
     private final Manifest manifest;
@@ -75,7 +75,7 @@ public final class ModClassLoader extends URLClassLoader {
                     throw new InvalidModException(e);
                 }
 
-                this.loadedModInfo = new ModInfo(modInstance, this, mod);
+                this.loadedModInfo = new ModContainer(modInstance, this, mod);
             }
 
             // Search for listeners
@@ -201,7 +201,7 @@ public final class ModClassLoader extends URLClassLoader {
         }
     }
 
-    public ModInfo getLoadedModInfo() {
+    public ModContainer getLoadedModInfo() {
         return loadedModInfo;
     }
 

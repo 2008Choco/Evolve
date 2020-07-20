@@ -3,15 +3,15 @@ package wtf.choco.evolve.util;
 import java.io.InputStream;
 import java.net.URL;
 
-import wtf.choco.evolve.mod.ModInfo;
+import wtf.choco.evolve.mod.ModContainer;
 
 import utils.MyFile;
 
 public class ModFile extends MyFile {
 
-    private final ModInfo mod;
+    private final ModContainer mod;
 
-    public ModFile(ModInfo mod, String path) {
+    public ModFile(ModContainer mod, String path) {
         super(path);
         this.mod = mod;
     }

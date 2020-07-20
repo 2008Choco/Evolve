@@ -2,7 +2,7 @@ package wtf.choco.evolve.gui.mods;
 
 import org.lwjgl.util.vector.Vector2f;
 
-import wtf.choco.evolve.mod.ModInfo;
+import wtf.choco.evolve.mod.ModContainer;
 
 import guiRendering.GuiRenderData;
 import guis.GuiComponent;
@@ -11,11 +11,11 @@ public final class ModListPanel extends GuiComponent {
 
     private static final float MOD_COMPONENT_HEIGHT = 0.31F;
 
-    private final ModInfo[] mods;
+    private final ModContainer[] mods;
     private final float ySize;
     private final boolean scrollable;
 
-    public ModListPanel(ModInfo[] mods) {
+    public ModListPanel(ModContainer[] mods) {
         this.mods = mods;
         this.ySize = mods.length * MOD_COMPONENT_HEIGHT;
         this.scrollable = ySize > 1.0F;

@@ -1,7 +1,7 @@
 package wtf.choco.evolve.gui.mods;
 
 import wtf.choco.evolve.Evolve;
-import wtf.choco.evolve.mod.ModInfo;
+import wtf.choco.evolve.mod.ModContainer;
 
 import fontRendering.Text;
 import gameMenu.GameMenuBackground;
@@ -24,7 +24,7 @@ public final class ModPanelGui extends SecondPanelUi {
     protected void init() {
         super.init();
 
-        ModInfo[] mods = Evolve.getInstance().getModManager().getMods();
+        ModContainer[] mods = Evolve.getInstance().getModManager().getMods();
         this.addTitleBar(mods.length);
 
         ModListPanel modListPanel = new ModListPanel(mods);

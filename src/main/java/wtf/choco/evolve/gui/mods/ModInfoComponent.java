@@ -2,7 +2,7 @@ package wtf.choco.evolve.gui.mods;
 
 import org.lwjgl.util.vector.Vector2f;
 
-import wtf.choco.evolve.mod.ModInfo;
+import wtf.choco.evolve.mod.ModContainer;
 
 import fontRendering.Text;
 import guiRendering.GuiRenderData;
@@ -23,7 +23,7 @@ public final class ModInfoComponent extends GuiComponent {
     private final Text modTitle;
     private final Text modDescription;
 
-    public ModInfoComponent(ModInfo mod) {
+    public ModInfoComponent(ModContainer mod) {
         this.background = new GuiImage(GuiRepository.BLOCK);
         this.background.getTexture().setOverrideColour(ColourPalette.DARK_GREY);
 

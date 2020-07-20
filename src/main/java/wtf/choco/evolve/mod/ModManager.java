@@ -18,8 +18,8 @@ public final class ModManager {
     private boolean ready = false;
 
     private final Map<String, ModLoader> modLoaders = new HashMap<>();
-    private final Map<String, ModInfo> modsById = new HashMap<>();
-    private final List<ModInfo> mods = new ArrayList<>();
+    private final Map<String, ModContainer> modsById = new HashMap<>();
+    private final List<ModContainer> mods = new ArrayList<>();
 
     private final Evolve evolve;
 
@@ -36,7 +36,7 @@ public final class ModManager {
         this.modLoaders.put(fileExtension, loader);
     }
 
-    public ModInfo loadMod(File modFile) throws InvalidModException {
+    public ModContainer loadMod(File modFile) throws InvalidModException {
         this.ready = false;
 
         String fileName = modFile.getName();
@@ -48,15 +48,15 @@ public final class ModManager {
             return null;
         }
 
-        ModInfo modInfo = loader.load(modFile);
-        this.modsById.put(modInfo.getId(), modInfo);
-        this.mods.add(modInfo);
+        ModContainer modContainer = loader.load(modFile);
+        this.modsById.put(modContainer.getId(), modContainer);
+        this.mods.add(modContainer);
         this.ready = true;
 
-        return modInfo;
+        return modContainer;
     }
 
-    public ModInfo[] loadMods(File modsDirectory) {
+    public ModContainer[] loadMods(File modsDirectory) {
         this.ready = false;
 
         Preconditions.checkArgument(modsDirectory != null, "modsDirectory must not be null");
@@ -64,33 +64,33 @@ public final class ModManager {
 
         Logger logger = evolve.getLogger();
         File[] modFiles = modsDirectory.listFiles();
-        List<ModInfo> modInfos = new ArrayList<>(modFiles.length);
+        List<ModContainer> modInfos = new ArrayList<>(modFiles.length);
 
         int loadedMods = 0;
         for (int i = 0; i < modFiles.length; i++) {
-            ModInfo modInfo = loadMod(modFiles[i]);
-            if (modInfo == null) {
+            ModContainer modContainer = loadMod(modFiles[i]);
+            if (modContainer == null) {
                 continue;
             }
 
-            modInfos.add(modInfo);
+            modInfos.add(modContainer);
             loadedMods++;
-            logger.info("Loaded mod \"" + modInfo.getId() + "\" v" + modInfo.getVersion() + " by " + modInfo.getAuthor());
+            logger.info("Loaded mod \"" + modContainer.getId() + "\" v" + modContainer.getVersion() + " by " + modContainer.getAuthor());
         }
 
         logger.info("Successfully loaded " + loadedMods + " mods.");
         this.ready = true;
-        return modInfos.toArray(new ModInfo[loadedMods]);
+        return modInfos.toArray(new ModContainer[loadedMods]);
     }
 
-    public void unloadMod(ModInfo modInfo) {
-        Preconditions.checkArgument(modInfo != null, "modInfo must not be null");
-        Preconditions.checkState(modsById.containsKey(modInfo.getId()), "ModInfo " + modInfo.getId() + " has not been loaded");
+    public void unloadMod(ModContainer modContainer) {
+        Preconditions.checkArgument(modContainer != null, "modInfo must not be null");
+        Preconditions.checkState(modsById.containsKey(modContainer.getId()), "ModInfo " + modContainer.getId() + " has not been loaded");
 
-        this.modsById.remove(modInfo.getId());
+        this.modsById.remove(modContainer.getId());
     }
 
-    public ModInfo getMod(String id) {
+    public ModContainer getMod(String id) {
         return modsById.get(id);
     }
 
@@ -98,8 +98,8 @@ public final class ModManager {
         return modsById.containsKey(id);
     }
 
-    public ModInfo[] getMods() {
-        return mods.toArray(new ModInfo[mods.size()]);
+    public ModContainer[] getMods() {
+        return mods.toArray(new ModContainer[mods.size()]);
     }
 
     public void clearMods() {

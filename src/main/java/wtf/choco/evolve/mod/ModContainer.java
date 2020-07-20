@@ -7,7 +7,7 @@ import wtf.choco.evolve.util.EvolveResources;
 import textures.Texture;
 import utils.MyFile;
 
-public final class ModInfo {
+public final class ModContainer {
 
     private Texture icon;
     private MyFile iconPath;
@@ -17,7 +17,7 @@ public final class ModInfo {
     private final ClassLoader classLoader;
     private final String id, version, description, author;
 
-    public ModInfo(Object modInstance, ClassLoader classLoader, String id, String version, String description, String author) {
+    public ModContainer(Object modInstance, ClassLoader classLoader, String id, String version, String description, String author) {
         Preconditions.checkArgument(modInstance != null, "modInstance must not be null");
         Preconditions.checkArgument(classLoader != null, "classLoader must not be null");
         Preconditions.checkArgument(id != null && !id.isEmpty(), "id cannot be null or empty");
@@ -32,7 +32,7 @@ public final class ModInfo {
         this.author = author;
     }
 
-    public ModInfo(Object modInstance, ClassLoader classLoader, Mod mod) {
+    public ModContainer(Object modInstance, ClassLoader classLoader, Mod mod) {
         this(modInstance, classLoader, mod.id(), mod.version(), mod.description(), mod.author());
     }
 
