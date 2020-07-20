@@ -7,7 +7,7 @@ import com.google.common.collect.Multimap;
 
 public final class EvolveEventBus implements EventBus {
 
-    private final Multimap<Class<? extends Event>, SubscribedListener> listeners = ArrayListMultimap.create();
+    private final Multimap<Class<? extends Event>, SubscribedListener<?>> listeners = ArrayListMultimap.create();
 
     EvolveEventBus() { }
 
@@ -17,14 +17,14 @@ public final class EvolveEventBus implements EventBus {
     }
 
     @Override
-    public SubscribedListener subscribeTo(Class<? extends Event> event, Consumer<Event> listener) {
-        SubscribedListener subscribedListener = new SubscribedListener(this, event, listener);
+    public <T extends Event> SubscribedListener<T> subscribeTo(Class<T> event, Consumer<T> listener) {
+        SubscribedListener<T> subscribedListener = new SubscribedListener<>(this, event, listener);
         this.listeners.put(event, subscribedListener);
         return subscribedListener;
     }
 
     @Override
-    public void unregisterListener(SubscribedListener listener) {
+    public void unregisterListener(SubscribedListener<?> listener) {
         this.listeners.remove(listener.getEventClass(), listener);
     }
 

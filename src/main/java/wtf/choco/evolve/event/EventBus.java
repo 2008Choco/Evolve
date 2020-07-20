@@ -8,9 +8,9 @@ public interface EventBus {
 
     public void push(Event event);
 
-    public SubscribedListener subscribeTo(Class<? extends Event> event, Consumer<Event> listener);
+    public <T extends Event> SubscribedListener<T> subscribeTo(Class<T> event, Consumer<T> listener);
 
-    public void unregisterListener(SubscribedListener listener);
+    public void unregisterListener(SubscribedListener<?> listener);
 
     public void unregisterListeners();
 
