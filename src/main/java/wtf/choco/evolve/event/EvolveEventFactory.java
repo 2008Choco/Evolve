@@ -5,8 +5,15 @@ import wtf.choco.evolve.event.lifecycle.EvolvePostInitEvent;
 import wtf.choco.evolve.event.lifecycle.EvolvePreInitEvent;
 import wtf.choco.evolve.event.lifecycle.EvolveShutdownEvent;
 
+/**
+ * A utility class for Evolve to more easily call events to the Evolve event bus.
+ * This class is meant for internal use and should be avoided by mods.
+ *
+ * @author Parker Hawke
+ */
 public final class EvolveEventFactory {
 
+    // Methods here need not be documented. They're not meant for public use anyways
     private EvolveEventFactory() { }
 
     public static boolean handleKeyPressEvent(int key) {

@@ -10,7 +10,6 @@ import java.security.CodeSource;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
@@ -28,18 +27,34 @@ import wtf.choco.evolve.mod.Mod;
 import wtf.choco.evolve.mod.ModContainer;
 import wtf.choco.evolve.util.ModFile;
 
+/**
+ * Represents a class loader for mods used to share resources between mods at runtime.
+ *
+ * @author Parker Hawke
+ */
 public final class ModClassLoader extends URLClassLoader {
 
-    private ModContainer loadedModInfo;
+    ModContainer loadedModInfo;
+    final Map<String, Class<?>> loadedClasses = new HashMap<>();
 
     private final JarFile jarFile;
     private final Manifest manifest;
     private final URL jarURL;
-    private final Map<String, Class<?>> loadedClasses = new HashMap<>();
 
     private final Evolve evolve;
     private final JavaModLoader modLoader;
 
+    /**
+     * Construct a new ModClassLoader.
+     *
+     * @param parent the parent class loader
+     * @param modFile the mod file to load
+     * @param evolve an instance of Evolve
+     * @param modLoader the mod loader instance attempting to load the mod
+     *
+     * @throws IOException if the file is invalid or inaccessible by the class loader
+     * @throws ClassNotFoundException if any mod class failed to load or could not be found
+     */
     public ModClassLoader(ClassLoader parent, File modFile, Evolve evolve, JavaModLoader modLoader) throws IOException, ClassNotFoundException {
         super(new URL[] { modFile.toURI().toURL() }, parent);
 
@@ -196,14 +211,6 @@ public final class ModClassLoader extends URLClassLoader {
         } finally {
             this.jarFile.close();
         }
-    }
-
-    public ModContainer getLoadedModInfo() {
-        return loadedModInfo;
-    }
-
-    public Set<String> getLoadedClasses() {
-        return loadedClasses.keySet();
     }
 
 }

@@ -49,7 +49,7 @@ public final class JavaModLoader implements ModLoader {
         }
 
         this.modClassLoaders.add(classLoader);
-        return classLoader.getLoadedModInfo();
+        return classLoader.loadedModInfo;
     }
 
     @Override
@@ -59,7 +59,7 @@ public final class JavaModLoader implements ModLoader {
         ClassLoader classLoader = mod.getModClass().getClassLoader();
         if (classLoader instanceof ModClassLoader) {
             this.modClassLoaders.remove(classLoader);
-            ((ModClassLoader) classLoader).getLoadedClasses().forEach(modClasses::remove);
+            ((ModClassLoader) classLoader).loadedClasses.forEach(modClasses::remove);
 
             try {
                 ((ModClassLoader) classLoader).close();

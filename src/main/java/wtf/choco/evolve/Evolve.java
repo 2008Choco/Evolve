@@ -13,6 +13,9 @@ import wtf.choco.evolve.mod.loader.JavaModLoader;
 
 import main.MainApp;
 
+/**
+ * The Evolve modding framework.
+ */
 public final class Evolve {
 
     private static final String LOGGER_FORMAT = "[%1$tF %1$tT] [%2$s] %3$s %n";
@@ -60,18 +63,39 @@ public final class Evolve {
         this.logger.info("Goodbye! Thanks for modding!");
     }
 
+    /**
+     * Get Evolve's Logger instance. It is recommended that mods avoid using this logger and
+     * instead create their own.
+     *
+     * @return the Evolve logger
+     */
     public Logger getLogger() {
         return logger;
     }
 
+    /**
+     * Get the directory in which mods should be loaded.
+     *
+     * @return the mods directory
+     */
     public File getModsDirectory() {
         return modsDirectory;
     }
 
+    /**
+     * Get the {@link ModManager} instance.
+     *
+     * @return the mod manager
+     */
     public ModManager getModManager() {
         return modManager;
     }
 
+    /**
+     * Get the Evolve instance.
+     *
+     * @return this instance
+     */
     public static Evolve getInstance() {
         return INSTANCE;
     }

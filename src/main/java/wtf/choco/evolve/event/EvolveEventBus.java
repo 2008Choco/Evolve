@@ -7,6 +7,14 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
+/**
+ * Evolve's {@link EventBus} implementation. Evolve's event bus instance. All events called
+ * by Evolve will be pushed here.
+ *
+ * @see EventBus#EVOLVE
+ *
+ * @author Parker Hawke
+ */
 public final class EvolveEventBus implements EventBus {
 
     private final Multimap<Class<? extends Event>, SubscribedListener<?>> listeners = ArrayListMultimap.create();
