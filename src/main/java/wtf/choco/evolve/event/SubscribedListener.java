@@ -10,7 +10,11 @@ public final class SubscribedListener<T extends Event> {
     private final Class<T> eventClass;
     private final Consumer<T> listener;
 
-    public SubscribedListener(EventBus bus, Class<T> event, Consumer<T> listener) {
+    SubscribedListener(EventBus bus, Class<T> event, Consumer<T> listener) {
+        Preconditions.checkArgument(bus != null, "bus cannot be null");
+        Preconditions.checkArgument(event != null, "event cannot be null");
+        Preconditions.checkArgument(listener != null, "listener cannot be null");
+
         this.bus = bus;
         this.eventClass = event;
         this.listener = listener;

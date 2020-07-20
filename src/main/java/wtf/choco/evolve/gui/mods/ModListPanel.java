@@ -16,7 +16,7 @@ public final class ModListPanel extends GuiComponent {
     private final boolean scrollable;
 
     public ModListPanel(ModContainer[] mods) {
-        this.mods = mods;
+        this.mods = (mods != null) ? mods : new ModContainer[0];
         this.ySize = mods.length * MOD_COMPONENT_HEIGHT;
         this.scrollable = ySize > 1.0F;
     }

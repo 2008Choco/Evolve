@@ -28,6 +28,9 @@ public final class ModManager {
     }
 
     public void registerModLoader(String fileExtension, Function<Evolve, ModLoader> modLoader) {
+        Preconditions.checkArgument(fileExtension != null, "fileExtension must not be null");
+        Preconditions.checkArgument(modLoader != null, "modLoader Function must not be null");
+
         ModLoader loader = modLoader.apply(evolve);
         if (loader == null) {
             throw new IllegalStateException("Cannot register null mod loader");
@@ -37,6 +40,8 @@ public final class ModManager {
     }
 
     public ModContainer loadMod(File modFile) throws InvalidModException {
+        Preconditions.checkArgument(modFile != null, "Cannot load null mod file");
+
         this.ready = false;
 
         String fileName = modFile.getName();
@@ -57,10 +62,10 @@ public final class ModManager {
     }
 
     public ModContainer[] loadMods(File modsDirectory) {
-        this.ready = false;
-
         Preconditions.checkArgument(modsDirectory != null, "modsDirectory must not be null");
         Preconditions.checkState(modsDirectory.isDirectory(), "modsDirectory does not exist or is not a directory");
+
+        this.ready = false;
 
         Logger logger = evolve.getLogger();
         File[] modFiles = modsDirectory.listFiles();
@@ -84,8 +89,8 @@ public final class ModManager {
     }
 
     public void unloadMod(ModContainer modContainer) {
-        Preconditions.checkArgument(modContainer != null, "modInfo must not be null");
-        Preconditions.checkState(modsById.containsKey(modContainer.getId()), "ModInfo " + modContainer.getId() + " has not been loaded");
+        Preconditions.checkArgument(modContainer != null, "modContainer must not be null");
+        Preconditions.checkState(modsById.containsKey(modContainer.getId()), "Mod with ID " + modContainer.getId() + " has not been loaded");
 
         this.modsById.remove(modContainer.getId());
     }

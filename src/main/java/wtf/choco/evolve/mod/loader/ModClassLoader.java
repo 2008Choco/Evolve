@@ -15,6 +15,8 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
+import com.google.common.base.Preconditions;
+
 import org.apache.commons.io.IOUtils;
 
 import wtf.choco.evolve.Evolve;
@@ -40,6 +42,10 @@ public final class ModClassLoader extends URLClassLoader {
 
     public ModClassLoader(ClassLoader parent, File modFile, Evolve evolve, JavaModLoader modLoader) throws IOException, ClassNotFoundException {
         super(new URL[] { modFile.toURI().toURL() }, parent);
+
+        Preconditions.checkArgument(evolve != null, "Evolve must not be null");
+        Preconditions.checkArgument(modLoader != null, "modLoader must not be null");
+
         this.jarFile = new JarFile(modFile);
         this.manifest = jarFile.getManifest();
         this.jarURL = modFile.toURI().toURL();

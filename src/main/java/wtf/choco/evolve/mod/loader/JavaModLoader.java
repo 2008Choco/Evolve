@@ -24,6 +24,7 @@ public final class JavaModLoader implements ModLoader {
     private final Evolve evolve;
 
     public JavaModLoader(Evolve evolve) {
+        Preconditions.checkArgument(evolve != null, "Evolve instance must not be null");
         this.evolve = evolve;
     }
 
@@ -53,6 +54,8 @@ public final class JavaModLoader implements ModLoader {
 
     @Override
     public void unload(ModContainer mod) {
+        Preconditions.checkArgument(mod != null, "modFile must not be null");
+
         ClassLoader classLoader = mod.getModClass().getClassLoader();
         if (classLoader instanceof ModClassLoader) {
             this.modClassLoaders.remove(classLoader);
