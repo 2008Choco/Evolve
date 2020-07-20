@@ -8,8 +8,7 @@ import java.util.List;
 public final class LocalLauncher {
 
     public static void main(String[] astring) throws Exception {
-        /* FIXME:
-         * This needs some cleaning up. It's not really a great approach to launching locally...
+        /* FIXME: This needs some cleaning up. It's not really a great approach to launching locally...
          * I'm not quite sure how to improve this, so contributions are welcome.
          */
 

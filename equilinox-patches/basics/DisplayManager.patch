@@ -5,7 +5,7 @@
              Display.setVSyncEnabled(GraphicsOptions.VSYNC);
              Display.setInitialBackground(1.0F, 1.0F, 1.0F);
 -            Display.setTitle(GameText.getText(1));
-+            Display.setTitle(GameText.getText(1) + " (Modded)"); // Evolve // TODO: Move this externally once events can be called
++            Display.setTitle(GameText.getText(1) + " (Modded)"); // Evolve
              Display.create(new PixelFormat(), contextattribs);
              DisplayManager.WIDTH = Display.getWidth();
              DisplayManager.HEIGHT = Display.getHeight();

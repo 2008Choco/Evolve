@@ -11,8 +11,7 @@ public final class Main {
         // Start the vanilla game
         MainApp.main(args);
 
-        // Perform cleanup of mods
-        // FIXME: This should probably be called much earlier so mods can still have access to necessary Equilinox data on shutdown
+        // Perform cleanup of Evolve (this is post mod shutdown)
         evolve.shutdown();
     }
 
