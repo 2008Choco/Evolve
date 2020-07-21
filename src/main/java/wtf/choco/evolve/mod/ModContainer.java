@@ -1,6 +1,7 @@
 package wtf.choco.evolve.mod;
 
 import com.google.common.base.Preconditions;
+import com.google.gson.JsonObject;
 
 import wtf.choco.evolve.util.EvolveResources;
 import wtf.choco.evolve.util.ModFile;
@@ -21,7 +22,7 @@ public final class ModContainer {
     private final Class<?> modClass;
     private final Object modInstance;
     private final ClassLoader classLoader;
-    private final String id, version, description, author;
+    private final String id, name, version, description, author;
 
     /**
      * Construct a new ModContainer.
@@ -29,34 +30,26 @@ public final class ModContainer {
      * @param modInstance an instance of the class annotated with {@literal @Mod}
      * @param classLoader the class loader that loaded this mod
      * @param id the unique String id of the mod
-     * @param version the mod version
-     * @param description the mod description
-     * @param author the mod author
+     * @param modData the json object containing mod data
      */
-    public ModContainer(Object modInstance, ClassLoader classLoader, String id, String version, String description, String author) {
+    public ModContainer(Object modInstance, ClassLoader classLoader, String id, JsonObject modData) {
         Preconditions.checkArgument(modInstance != null, "modInstance must not be null");
         Preconditions.checkArgument(classLoader != null, "classLoader must not be null");
         Preconditions.checkArgument(id != null && !id.isEmpty(), "id cannot be null or empty");
-        Preconditions.checkArgument(version != null && !version.isEmpty(), "version cannot be null or empty");
+        Preconditions.checkArgument(modData != null, "modData must not be null");
 
         this.modInstance = modInstance;
         this.modClass = modInstance.getClass();
         this.classLoader = classLoader;
         this.id = id;
-        this.version = version;
-        this.description = description;
-        this.author = author;
-    }
 
-    /**
-     * Construct a new ModContainer.
-     *
-     * @param modInstance an instance of the class annotated with {@literal @Mod}
-     * @param classLoader the class loader that loaded this mod
-     * @param mod the Mod annotation on the modInstance
-     */
-    public ModContainer(Object modInstance, ClassLoader classLoader, Mod mod) {
-        this(modInstance, classLoader, mod.id(), mod.version(), mod.description(), mod.author());
+        // Load data from mod.json file
+        this.name = getOrDefault(modData, "name", id);
+        this.version = getOrDefault(modData, "version", "1.0.0");
+        this.description = getOrDefault(modData, "description", "");
+        this.author = getOrDefault(modData, "author", "Unknown");
+
+        this.setIcon(new ModFile(this, getOrDefault(modData, "icon", "icon.png")));
     }
 
     /**
@@ -93,6 +86,16 @@ public final class ModContainer {
      */
     public String getId() {
         return id;
+    }
+
+    /**
+     * Get this mod's name. This name is more friendly than the unique id string and is used in
+     * place of the id in most user interfaces / logging.
+     *
+     * @return the mod name
+     */
+    public String getName() {
+        return name;
     }
 
     /**
@@ -154,7 +157,10 @@ public final class ModContainer {
      */
     public Texture getIcon() {
         if (iconPath != null) {
-            this.icon = Texture.newTexture(iconPath).clampEdges().noFiltering().create();
+            if (iconPath.getInputStream() != null) {
+                this.icon = Texture.newTexture(iconPath).clampEdges().noFiltering().create();
+            }
+
             this.iconPath = null;
         }
 
@@ -163,6 +169,10 @@ public final class ModContainer {
         }
 
         return icon;
+    }
+
+    private String getOrDefault(JsonObject object, String name, String defaultValue) {
+        return (object.has(name) ? object.get(name).getAsString() : defaultValue);
     }
 
 }

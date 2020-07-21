@@ -23,29 +23,6 @@ public @interface Mod {
      *
      * @return the mod id
      */
-    public String id();
-
-    // TODO: Externalize mod information to a file
-
-    /**
-     * The mod version.
-     *
-     * @return the mod version
-     */
-    public String version();
-
-    /**
-     * The mod description. Defaults to "".
-     *
-     * @return the mod description.
-     */
-    public String description() default "";
-
-    /**
-     * The mod author. Defaults to "None".
-     *
-     * @return the mod author
-     */
-    public String author() default "None";
+    public String value();
 
 }

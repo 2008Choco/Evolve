@@ -3,9 +3,11 @@ package wtf.choco.evolve.mod.loader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.charset.Charset;
 import java.security.CodeSource;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -15,6 +17,10 @@ import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
 import com.google.common.base.Preconditions;
+import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 
 import org.apache.commons.io.IOUtils;
 
@@ -25,7 +31,6 @@ import wtf.choco.evolve.event.EventListener;
 import wtf.choco.evolve.mod.InvalidModException;
 import wtf.choco.evolve.mod.Mod;
 import wtf.choco.evolve.mod.ModContainer;
-import wtf.choco.evolve.util.ModFile;
 
 /**
  * Represents a class loader for mods used to share resources between mods at runtime.
@@ -33,6 +38,8 @@ import wtf.choco.evolve.util.ModFile;
  * @author Parker Hawke
  */
 public final class ModClassLoader extends URLClassLoader {
+
+    private static final Gson GSON = new Gson();
 
     ModContainer loadedModInfo;
     final Map<String, Class<?>> loadedClasses = new HashMap<>();
@@ -70,6 +77,20 @@ public final class ModClassLoader extends URLClassLoader {
 
         // Load the mod
         this.evolve.getLogger().info("Loading mod at " + modFile.getPath());
+
+        JarEntry modDescriptionFile = jarFile.getJarEntry("mod.json");
+        if (modDescriptionFile == null) {
+            throw new InvalidModException("Could not find valid mod.json in root directory of mod at " + modFile.getPath());
+        }
+
+        // TODO: This can probably handle exceptions a little bit better
+        JsonObject modJson = new JsonObject();
+        try {
+            modJson = GSON.fromJson(new InputStreamReader(getResourceAsStream(modDescriptionFile.getName()), Charset.forName("UTF-8")), JsonObject.class);
+        } catch (JsonSyntaxException | JsonIOException e) {
+            throw new InvalidModException(e);
+        }
+
         for (Enumeration<JarEntry> entries = jarFile.entries(); entries.hasMoreElements();) {
             JarEntry entry = entries.nextElement();
             String entryName = entry.getName();
@@ -96,7 +117,7 @@ public final class ModClassLoader extends URLClassLoader {
                     throw new InvalidModException(e);
                 }
 
-                this.loadedModInfo = new ModContainer(modInstance, this, mod);
+                this.loadedModInfo = new ModContainer(modInstance, this, mod.value(), modJson);
             }
 
             // Search for listeners
@@ -132,12 +153,6 @@ public final class ModClassLoader extends URLClassLoader {
 
         if (loadedModInfo == null) {
             throw new InvalidModException("Missing @Mod annotation while loading mod at " + modFile.getPath());
-        }
-
-        // Try to find mod icon
-        JarEntry iconEntry = jarFile.getJarEntry("icon.png");
-        if (iconEntry != null) {
-            this.loadedModInfo.setIcon(new ModFile(loadedModInfo, iconEntry.getName()));
         }
     }
 

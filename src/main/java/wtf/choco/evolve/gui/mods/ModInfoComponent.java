@@ -32,7 +32,7 @@ public final class ModInfoComponent extends GuiComponent {
         this.background.getTexture().setOverrideColour(ColourPalette.DARK_GREY);
 
         this.modIcon = new GuiImage(mod.getIcon());
-        this.modTitle = Text.newText(mod.getId() + " v" + mod.getVersion() + " by " + mod.getAuthor()).setFontSize(1.0F).create();
+        this.modTitle = Text.newText(mod.getName() + " v" + mod.getVersion() + " by " + mod.getAuthor()).setFontSize(1.0F).create();
         this.modTitle.setColour(ColourPalette.WHITE);
         this.modDescription = Text.newText(mod.getDescription()).setFontSize(0.85F).create();
         this.modDescription.setColour(ColourPalette.WHITE);
